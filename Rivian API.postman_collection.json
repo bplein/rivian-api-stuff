@@ -1,0 +1,320 @@
+{
+	"info": {
+		"_postman_id": "2f0a8f58-fa31-46d2-bb04-1fef776ab566",
+		"name": "Rivian API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7242815"
+	},
+	"item": [
+		{
+			"name": "getRegisteredWallboxes",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "A-Sess",
+						"value": "{{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "U-Sess",
+						"value": "{{user_session_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"operationName\": \"getRegisteredWallboxes\",\n  \"variables\": {},\n  \"query\": \"query getRegisteredWallboxes { getRegisteredWallboxes { __typename wallboxId userId wifiId name linked latitude longitude chargingStatus power currentVoltage currentAmps softwareVersion model serialNumber maxPower maxVoltage maxAmps } }\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rivian.com/api/gql/chrg/user/graphql/",
+					"protocol": "https",
+					"host": [
+						"rivian",
+						"com"
+					],
+					"path": [
+						"api",
+						"gql",
+						"chrg",
+						"user",
+						"graphql",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUserInfo",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "A-Sess",
+						"value": "{{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "U-Sess",
+						"value": "{{user_session_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"operationName\": \"getUserInfo\",\n  \"variables\": {},\n  \"query\": \"query getUserInfo { currentUser { __typename id firstName lastName email address { __typename country } vehicles { __typename id name owner roles vin vas { __typename vasVehicleId vehiclePublicKey } vehicle { __typename model mobileConfiguration { __typename trimOption { __typename optionId optionName } exteriorColorOption { __typename optionId optionName } interiorColorOption { __typename optionId optionName } } vehicleState { __typename supportedFeatures { __typename name status } } otaEarlyAccessStatus } settings { __typename name { __typename value } } } enrolledPhones { __typename vas { __typename vasPhoneId publicKey } enrolled { __typename deviceType deviceName vehicleId identityId shortName } } pendingInvites { __typename id invitedByFirstName role status vehicleId vehicleModel email } } }\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rivian.com/api/gql/gateway/graphql",
+					"protocol": "https",
+					"host": [
+						"rivian",
+						"com"
+					],
+					"path": [
+						"api",
+						"gql",
+						"gateway",
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getVehicleState",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.variables.get(\"vehicle_id\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "A-Sess",
+						"value": "{{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "U-Sess",
+						"value": "{{user_session_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"operationName\": \"GetVehicleState\",\n  \"variables\": {\n    \"vehicleID\": \"{{vehicle_id}}\"\n  },\n  \"query\": \"query GetVehicleState($vehicleID: String!) { vehicleState(id: $vehicleID) { __typename gnssLocation { __typename latitude longitude timeStamp } alarmSoundStatus { __typename timeStamp value } timeToEndOfCharge { __typename timeStamp value } doorFrontLeftLocked { __typename timeStamp value } doorFrontLeftClosed { __typename timeStamp value } doorFrontRightLocked { __typename timeStamp value } doorFrontRightClosed { __typename timeStamp value } doorRearLeftLocked { __typename timeStamp value } doorRearLeftClosed { __typename timeStamp value } doorRearRightLocked { __typename timeStamp value } doorRearRightClosed { __typename timeStamp value } windowFrontLeftClosed { __typename timeStamp value } windowFrontRightClosed { __typename timeStamp value } windowFrontLeftCalibrated { __typename timeStamp value } windowFrontRightCalibrated { __typename timeStamp value } windowRearLeftCalibrated { __typename timeStamp value } windowRearRightCalibrated { __typename timeStamp value } closureFrunkLocked { __typename timeStamp value } closureFrunkClosed { __typename timeStamp value } gearGuardLocked { __typename timeStamp value } closureLiftgateLocked { __typename timeStamp value } closureLiftgateClosed { __typename timeStamp value } windowRearLeftClosed { __typename timeStamp value } windowRearRightClosed { __typename timeStamp value } closureSideBinLeftLocked { __typename timeStamp value } closureSideBinLeftClosed { __typename timeStamp value } closureSideBinRightLocked { __typename timeStamp value } closureSideBinRightClosed { __typename timeStamp value } closureTailgateLocked { __typename timeStamp value } closureTailgateClosed { __typename timeStamp value } closureTonneauLocked { __typename timeStamp value } closureTonneauClosed { __typename timeStamp value } wiperFluidState { __typename timeStamp value } powerState { __typename timeStamp value } batteryHvThermalEventPropagation { __typename timeStamp value } vehicleMileage { __typename timeStamp value } brakeFluidLow { __typename timeStamp value } gearStatus { __typename timeStamp value } tirePressureStatusFrontLeft { __typename timeStamp value } tirePressureStatusValidFrontLeft { __typename timeStamp value } tirePressureStatusFrontRight { __typename timeStamp value } tirePressureStatusValidFrontRight { __typename timeStamp value } tirePressureStatusRearLeft { __typename timeStamp value } tirePressureStatusValidRearLeft { __typename timeStamp value } tirePressureStatusRearRight { __typename timeStamp value } tirePressureStatusValidRearRight { __typename timeStamp value } batteryLevel { __typename timeStamp value } chargerState { __typename timeStamp value } batteryLimit { __typename timeStamp value } remoteChargingAvailable { __typename timeStamp value } batteryHvThermalEvent { __typename timeStamp value } rangeThreshold { __typename timeStamp value } distanceToEmpty { __typename timeStamp value } otaAvailableVersionNumber { __typename timeStamp value } otaAvailableVersionWeek { __typename timeStamp value } otaAvailableVersionYear { __typename timeStamp value } otaCurrentVersionNumber { __typename timeStamp value } otaCurrentVersionWeek { __typename timeStamp value } otaCurrentVersionYear { __typename timeStamp value } otaDownloadProgress { __typename timeStamp value } otaInstallDuration { __typename timeStamp value } otaInstallProgress { __typename timeStamp value } otaInstallReady { __typename timeStamp value } otaInstallTime { __typename timeStamp value } otaInstallType { __typename timeStamp value } otaStatus { __typename timeStamp value } otaCurrentStatus { __typename timeStamp value } cabinClimateInteriorTemperature { __typename timeStamp value } cabinPreconditioningStatus { __typename timeStamp value } cabinPreconditioningType { __typename timeStamp value } petModeStatus { __typename timeStamp value } petModeTemperatureStatus { __typename timeStamp value } cabinClimateDriverTemperature { __typename timeStamp value } gearGuardVideoStatus { __typename timeStamp value } gearGuardVideoMode { __typename timeStamp value } gearGuardVideoTermsAccepted { __typename timeStamp value } defrostDefogStatus { __typename timeStamp value } steeringWheelHeat { __typename timeStamp value } seatFrontLeftHeat { __typename timeStamp value } seatFrontRightHeat { __typename timeStamp value } seatRearLeftHeat { __typename timeStamp value } seatRearRightHeat { __typename timeStamp value } chargerStatus { __typename timeStamp value } seatFrontLeftVent { __typename timeStamp value } seatFrontRightVent { __typename timeStamp value } chargerDerateStatus { __typename timeStamp value } driveMode { __typename timeStamp value } } }\"\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rivian.com/api/gql/gateway/graphql",
+					"protocol": "https",
+					"host": [
+						"rivian",
+						"com"
+					],
+					"path": [
+						"api",
+						"gql",
+						"gateway",
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getVehicle",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.variables.get(\"vehicle_id\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "A-Sess",
+						"value": "{{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "U-Sess",
+						"value": "{{user_session_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"operationName\": \"GetVehicle\",\n  \"variables\": {\n    \"getVehicleId\": \"{{vehicle_id}}\"\n  },\n  \"query\": \"query GetVehicle($getVehicleId: String) { getVehicle(id: $getVehicleId) { __typename invitedUsers { __typename ... on ProvisionedUser { devices { __typename type mappedIdentityId id hrid deviceName isPaired isEnabled } firstName lastName email roles userId } ... on UnprovisionedUser { email inviteId status } } } }\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rivian.com/api/gql/gateway/graphql",
+					"protocol": "https",
+					"host": [
+						"rivian",
+						"com"
+					],
+					"path": [
+						"api",
+						"gql",
+						"gateway",
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ParseAndShareLocationToVehicle",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.variables.get(\"vehicle_id\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "A-Sess",
+						"value": "{{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "U-Sess",
+						"value": "{{user_session_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"operationName\": \"ParseAndShareLocationToVehicle\",\n  \"variables\": {\n    \"str\": \"https://maps.apple.com/?address=100%20Rivian%20Motorway,%20Normal,%20IL%20%2061761,%20United%20States&auid=1948325322443804534&ll=40.508882,-89.054466&lsp=9902&q=Rivian\",\n    \"vehicleId\": \"{{vehicle_id}}\"\n  },\n  \"query\": \"mutation ParseAndShareLocationToVehicle($str: String!, $vehicleId: String!) { parseAndShareLocationToVehicle(str: $str, vehicleId: $vehicleId) { __typename publishResponse { __typename result } } }\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rivian.com/api/gql/gateway/graphql",
+					"protocol": "https",
+					"host": [
+						"rivian",
+						"com"
+					],
+					"path": [
+						"api",
+						"gql",
+						"gateway",
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "csrfToken",
+			"value": ""
+		},
+		{
+			"key": "appSessionToken",
+			"value": ""
+		},
+		{
+			"key": "otpToken",
+			"value": ""
+		}
+	]
+}
